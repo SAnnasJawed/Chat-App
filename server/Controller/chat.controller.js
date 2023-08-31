@@ -9,28 +9,37 @@ const createChat = async (req, res) => {
     if (firstId && secondId) {
       const chat = await Chat.findOne({
         where: {
-          [Op.and]: [
+          [Op.or]: [
             {
               members: {
-                [Op.like]: `%${firstId}%`,
+                [Op.and]: [
+                  { [Op.like]: `"${firstId}"` },
+                  { [Op.like]: `"${secondId}"` },
+                ],
               },
             },
             {
               members: {
-                [Op.like]: `%${secondId}%`,
+                [Op.and]: [
+                  { [Op.like]: `"${secondId}"` },
+                  { [Op.like]: `"${firstId}"` },
+                ],
               },
             },
           ],
         },
       });
+      // console.log(chat?.members)
+      console.log("CHAT:", chat);
       if (chat) {
-        return res.status(200).json({ chat });
+        return res.status(200).json(chat);
       }
       const newChat = new Chat({
         members: [firstId, secondId],
       });
-      const response = await newChat.save();
-      return res.status(200).json({ response });
+      // console.log("newCHaT: ", newChat);
+      await newChat.save();
+      return res.status(200).json(newChat);
     } else {
       throw new Error("Need both ids...");
     }
@@ -48,29 +57,45 @@ const findUserChats = async (req, res) => {
   try {
     if (userId) {
       const chats = await Chat.findAll({
-        where: {
-          members: {
-            [Op.like]: `%${userId}%`,
-          },
-        },
+        // where: {
+        //   flag: { [Op.contains]: userId },
+        // },
       });
+      // if (chats.length >= 1) {
+      //   let arr = [];
+      //   for (let chat of chats) {
+      //     arr.push({
+      //       [Op.contains]: [userId],
+      //     });
+      //   }
+      //   console.log("ARR: ",arr);
+      //   const abc = await Chat.findAll({
+      //     where: {
+      //       members: {
+      //         [Op.or]: arr,
+      //       },
+      //     },
+      //   });
+      //   console.log("ABC: ", abc);
       if (chats.length >= 1) {
         return res.status(200).json(chats);
+      } else {
+        return res.status(200).json([]); // Empty array if no chats found
       }
     } else {
-      throw new Error("UserId Cannot be null");
+      throw new Error("UserId cannot be null");
     }
-    // for (let chat of chats) {
-    //   if (chat.members.includes(userId)) {
-    //     stat = true;
-    //   } else {
-    //     stat = false;
-    //   }
-    //
   } catch (error) {
-    return res.status(500).json({ message: `Some Error Occured: ${error}` });
+    return res.status(500).json({ message: `Some error occurred: ${error}` });
   }
 };
+// for (let chat of chats) {
+//   if (chat.members.includes(userId)) {
+//     stat = true;
+//   } else {
+//     stat = false;
+//   }
+//
 
 // findChat
 
@@ -83,12 +108,12 @@ const findChat = async (req, res) => {
         [Op.and]: [
           {
             members: {
-              [Op.like]: `%${firstId}%`,
+              [Op.like]: `${firstId}`,
             },
           },
           {
             members: {
-              [Op.like]: `%${secondId}%`,
+              [Op.like]: `${secondId}`,
             },
           },
         ],

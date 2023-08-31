@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { Form, Row, Col, Stack, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
-import showPwdImg from "/home/misbah/Desktop/chatApp/client/vite-project/src/assets/showpassword.svg";
-import hidePwdImg from "/home/misbah/Desktop/chatApp/client/vite-project/src/assets/hidepassword.svg";
+import showPwdImg from "../../src/assets/showpassword.svg";
+import hidePwdImg from "../../src/assets/hidepassword.svg";
 
 const Login = () => {
   const { loginUser, loginError, isLoginLoading, loginInfo, updateLoginInfo } =

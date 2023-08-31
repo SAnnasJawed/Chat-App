@@ -5,14 +5,14 @@ class Chat extends Model {}
 Chat.init(
   {
     members: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false,
-      get() {
-        return this.getDataValue("members").split(";");
-      },
-      set(val) {
-        this.setDataValue("members", val.join(";"));
-      },
+      // get() {
+      //   return this.getDataValue("members").split(";");
+      // },
+      // set(val) {
+      //   this.setDataValue("members", val.join(";"));
+      // },
     },
   },
   {

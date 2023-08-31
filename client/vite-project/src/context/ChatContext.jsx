@@ -13,7 +13,6 @@ export const ChatContextProvider = ({ children, user }) => {
 
   useEffect(() => {
     const getUsers = async () => {
-      // console.log("checking");
       const response = await getRequest(`${baseUrl}/user/getusers`);
       if (response?.error) {
         return console.log("Some Error Occured: ", error);
@@ -35,7 +34,6 @@ export const ChatContextProvider = ({ children, user }) => {
 
   useEffect(() => {
     const getUserChats = async () => {
-      console.log("checking");
       if (user?.data.id) {
         setIsUserChatsLoading(true);
         setUserChatsError(null);
@@ -54,7 +52,6 @@ export const ChatContextProvider = ({ children, user }) => {
   }, [user]);
 
   const createChat = useCallback(async (firstId, secondId) => {
-    debugger
     console.log("firstID: ", firstId, "secondID: ", secondId);
     const response = await postRequest(
       `${baseUrl}/chats/createchat`,
@@ -66,9 +63,9 @@ export const ChatContextProvider = ({ children, user }) => {
     if (response?.error) {
       return console.log("Error Occured: ", error);
     } else {
-      setUserChats((prev) => [...prev, response?.response]);
+      setUserChats((prev) => [...prev, response]);
       setIsUserChatsLoading(false);
-      console.log(response);
+      console.log("response: ", response);
     }
   }, []);
 
