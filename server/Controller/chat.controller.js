@@ -1,5 +1,6 @@
 const Chat = require("../DatabaseModel/chat.model");
-const { Sequelize, Op } = require("sequelize");
+const { QueryTypes, Sequelize, Op } = require("sequelize");
+const { sequelize } = require("../database");
 
 // Create Chat
 
@@ -12,18 +13,12 @@ const createChat = async (req, res) => {
           [Op.or]: [
             {
               members: {
-                [Op.and]: [
-                  { [Op.like]: `"${firstId}"` },
-                  { [Op.like]: `"${secondId}"` },
-                ],
+                [Op.and]: [{ firstId: firstId }, { secondId: secondId }],
               },
             },
             {
               members: {
-                [Op.and]: [
-                  { [Op.like]: `"${secondId}"` },
-                  { [Op.like]: `"${firstId}"` },
-                ],
+                [Op.and]: [{ firstId: secondId }, { secondId: firstId }],
               },
             },
           ],
@@ -35,7 +30,10 @@ const createChat = async (req, res) => {
         return res.status(200).json(chat);
       }
       const newChat = new Chat({
-        members: [firstId, secondId],
+        members: {
+          firstId: firstId,
+          secondId: secondId,
+        },
       });
       // console.log("newCHaT: ", newChat);
       await newChat.save();
@@ -57,26 +55,21 @@ const findUserChats = async (req, res) => {
   try {
     if (userId) {
       const chats = await Chat.findAll({
-        // where: {
-        //   flag: { [Op.contains]: userId },
-        // },
+        where: {
+          // [Op.or]: [
+          //   {
+          members: {
+            [Op.or]: [{ firstId: userId }, { secondId: userId }],
+          },
+          // },
+          // {
+          //   members: {
+          //     [Op.and]: [{ firstId: userId }, { secondId: userId }],
+          //   },
+          // },
+          // ],
+        },
       });
-      // if (chats.length >= 1) {
-      //   let arr = [];
-      //   for (let chat of chats) {
-      //     arr.push({
-      //       [Op.contains]: [userId],
-      //     });
-      //   }
-      //   console.log("ARR: ",arr);
-      //   const abc = await Chat.findAll({
-      //     where: {
-      //       members: {
-      //         [Op.or]: arr,
-      //       },
-      //     },
-      //   });
-      //   console.log("ABC: ", abc);
       if (chats.length >= 1) {
         return res.status(200).json(chats);
       } else {

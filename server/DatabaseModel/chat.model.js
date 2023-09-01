@@ -6,6 +6,7 @@ Chat.init(
   {
     members: {
       type: DataTypes.JSON,
+      values: ["firstId", "secondId"],
       allowNull: false,
       // get() {
       //   return this.getDataValue("members").split(";");

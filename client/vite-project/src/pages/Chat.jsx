@@ -4,8 +4,11 @@ import { Alert, Container, Stack } from "react-bootstrap";
 import UserChat from "../components/chat/UserChat";
 import { AuthContext } from "../context/AuthContext";
 import PotentialChats from "../components/chat/PotentialChat";
+import { useLocation } from "react-router-dom";
 
 const Chat = () => {
+  const location = useLocation();
+  console.log("CHAT: ", location);
   const { user } = useContext(AuthContext);
   const { userChats, isUserChatsLoading, userChatsError } =
     useContext(ChatContext);

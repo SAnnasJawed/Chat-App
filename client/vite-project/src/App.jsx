@@ -1,4 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -18,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={user ? <Chat /> : <Login />} />
           <Route path="/signup" element={user ? <Chat /> : <SignUp />} />
-          <Route path="/login" element={user ? <Chat /> : <Login />} />
+          <Route path="/login" element={!user ? <Login /> : <Chat />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Container>

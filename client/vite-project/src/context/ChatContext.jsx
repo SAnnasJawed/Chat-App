@@ -14,15 +14,20 @@ export const ChatContextProvider = ({ children, user }) => {
   useEffect(() => {
     const getUsers = async () => {
       const response = await getRequest(`${baseUrl}/user/getusers`);
+      console.log(response);
       if (response?.error) {
         return console.log("Some Error Occured: ", error);
       }
       const pChats = response?.filter((u) => {
         let isChatCreated = false;
+        console.log("uID", u?.id);
         if (user?.data.id == u.id) return false;
         if (userChats) {
           isChatCreated = userChats?.some((chat) => {
-            return chat?.members?.[0] == u.id || chat?.members?.[1] == u.id;
+            console.log(chat?.members?.firstId);
+            return (
+              chat?.members?.firstId == u.id || chat?.members?.secondId == u.id
+            );
           });
         }
         return !isChatCreated;
