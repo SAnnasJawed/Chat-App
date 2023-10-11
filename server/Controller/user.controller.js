@@ -2,6 +2,7 @@ const User = require("../DatabaseModel/user.model");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const createToken = (_id) => {
   const jwt_key = process.env.JWT_SECRET_KEY;

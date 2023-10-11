@@ -8,6 +8,7 @@ const PotentialChats = () => {
     potentialChatsError,
     createChat,
     setCreateChatError,
+    onlineUsers,
   } = useContext(ChatContext);
   const { user } = useContext(AuthContext);
   return (
@@ -24,7 +25,13 @@ const PotentialChats = () => {
                 }}
               >
                 {u?.first_name + "" + u?.last_name}
-                <span className="user-online"></span>
+                <span
+                  className={
+                    onlineUsers?.some((user) => user?.userId === u?.id)
+                      ? "user-online"
+                      : ""
+                  }
+                ></span>
               </div>
             );
           })}

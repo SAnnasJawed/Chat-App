@@ -5,10 +5,14 @@ import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 
 const UserChat = ({ chat, user }) => {
+  // console.log("UserChat:", chat);
   const { recipientUser } = useFetchRecipientUser(chat, user);
-  // console.log("recipientUser: ", recipientUser?.user?.first_name);
+  const {onlineUsers} = useContext(ChatContext)
+  // console.log("recipientUser: ", recipientUser);
   const { userChats, isUserChatsLoading, userChatsError } =
     useContext(ChatContext);
+    // console.log("RU", chat);
+    const isUserOnline = onlineUsers?.some((user)=> user?.userId === recipientUser?.user?.id)
   return (
     <Stack
       direction="horizontal"
@@ -28,7 +32,7 @@ const UserChat = ({ chat, user }) => {
       <div className="d-flex flex-column align-items-end">
         <div className="date">08/25/2023</div>
         <div className="this-user-notification">2</div>
-        <span className="user-online"></span>
+        <span className={isUserOnline ? "user-online" : ""}></span>
       </div>
     </Stack>
   );

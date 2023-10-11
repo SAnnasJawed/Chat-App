@@ -28,7 +28,7 @@ const getMessages = async (req, res) => {
   const { chatId } = req.params;
   try {
     if (chatId) {
-      const messages = await Message.findAll({ chatId });
+      const messages = await Message.findAll({ where: { chatId: chatId } });
       return res.status(200).json(messages);
     } else {
       throw new Error("Invalid field value....");

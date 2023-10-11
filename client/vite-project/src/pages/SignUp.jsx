@@ -39,7 +39,7 @@ const SignUp = () => {
                   boxShadow: "5px 10px 20px lightblue",
                   margin: "4em",
                   padding: "1em",
-                  height: "490px",
+                  height: "520px",
                   borderRadius: "15px",
                   backgroundColor: "#1B1212",
                 }}

@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:8000/api";
+export const baseUrl = "http://localhost:5000/api";
 
 // Post Request General Method
 

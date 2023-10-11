@@ -4,7 +4,7 @@ import { baseUrl, getRequest } from "../utils/services";
 export const useFetchRecipientUser = (chat, user) => {
   const [recipientUser, setRecipientUser] = useState(null);
   // const [error, setError] = useState(null);
-  // console.log(chat);
+  // console.log("Hook",chat);
   let recipientId = 0;
   for (let prop in chat?.members) {
     // console.log(chat?.members[prop]);
@@ -12,6 +12,7 @@ export const useFetchRecipientUser = (chat, user) => {
     if (chat?.members.hasOwnProperty(prop)) {
       if (chat?.members[prop] !== user?.data.id) {
         recipientId = chat?.members[prop];
+        // console.log("RID:", recipientId, "userId", user?.data.id);
       }
     }
   }
@@ -33,6 +34,6 @@ export const useFetchRecipientUser = (chat, user) => {
       setRecipientUser(response);
     };
     getUser();
-  }, []);
+  }, [recipientId]);
   return { recipientUser };
 };

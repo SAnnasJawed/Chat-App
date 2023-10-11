@@ -2,8 +2,6 @@ import {
   Routes,
   Route,
   Navigate,
-  useLocation,
-  useRouteMatch,
 } from "react-router-dom";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";

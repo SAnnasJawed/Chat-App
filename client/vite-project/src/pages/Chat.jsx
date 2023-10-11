@@ -5,12 +5,11 @@ import UserChat from "../components/chat/UserChat";
 import { AuthContext } from "../context/AuthContext";
 import PotentialChats from "../components/chat/PotentialChat";
 import { useLocation } from "react-router-dom";
+import ChatBox from "../components/chat/ChatBox";
 
 const Chat = () => {
-  const location = useLocation();
-  console.log("CHAT: ", location);
   const { user } = useContext(AuthContext);
-  const { userChats, isUserChatsLoading, userChatsError } =
+  const { userChats, isUserChatsLoading, userChatsError, updateCurrentChat } =
     useContext(ChatContext);
   return (
     <Container>
@@ -20,7 +19,7 @@ const Chat = () => {
           <Stack direction="horizontal" gap={4} className="align-items-start">
             <Stack className="flex-grow-0 message-box pe-3" gap={4}>
               {isUserChatsLoading ? (
-                <p>Click to Start a Chat</p>
+                <p>Loading Chats</p>
               ) : (
                 <p>Click to Start a Chat</p>
               )}
@@ -34,13 +33,13 @@ const Chat = () => {
             {isUserChatsLoading && <p>Loading Chats....!!</p>}
             {userChats?.map((chat, index) => {
               return (
-                <div key={index}>
+                <div key={index} onClick={() => updateCurrentChat(chat)}>
                   <UserChat chat={chat} user={user} />
                 </div>
               );
             })}
           </Stack>
-          <p>ChatBox</p>
+          <ChatBox />
         </Stack>
       )}
     </Container>
